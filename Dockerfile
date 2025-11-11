@@ -5,10 +5,14 @@ RUN a2enmod rewrite
 
 # Copy the PHP application
 COPY index.php /var/www/html/
+COPY source/ /app/source/
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+    && chmod -R 755 /var/www/html \
+    && mkdir -p /app/source \
+    && chown -R www-data:www-data /app/source \
+    && chmod -R 755 /app/source
 
 # Expose port 80
 EXPOSE 80

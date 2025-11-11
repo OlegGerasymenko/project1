@@ -15,6 +15,25 @@ spec:
       labels:
         app: php-app
     spec:
+      initContainers:
+      - name: init-data
+        image: php-app:latest
+        imagePullPolicy: Never
+        command: ['sh', '-c']
+        args:
+          - |
+            echo "Initializing data volume...";
+            if [ ! -f /data/test.txt ]; then
+              echo "Copying test.txt to persistent volume...";
+              cp /app/source/test.txt /data/test.txt;
+              chmod 666 /data/test.txt;
+              echo "Initialization complete!";
+            else
+              echo "test.txt already exists, skipping initialization.";
+            fi
+        volumeMounts:
+        - name: data-volume
+          mountPath: /data
       containers:
       - name: php-app
         image: php-app:latest
@@ -22,6 +41,9 @@ spec:
         ports:
         - containerPort: 80
           name: http
+        volumeMounts:
+        - name: data-volume
+          mountPath: /data
         resources:
           requests:
             memory: "64Mi"
@@ -41,5 +63,9 @@ spec:
             port: 80
           initialDelaySeconds: 5
           periodSeconds: 5
+      volumes:
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: php-app-pvc
 
 
