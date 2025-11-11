@@ -8,7 +8,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: php-app.local
+  - host: php-app.test
     http:
       paths:
       - path: /
