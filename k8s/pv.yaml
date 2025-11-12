@@ -8,6 +8,9 @@ spec:
   capacity:
     storage: 100Mi
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
+  hostPath:
+    path: /data/php-app
+    type: DirectoryOrCreate
