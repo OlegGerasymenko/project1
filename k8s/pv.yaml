@@ -11,7 +11,3 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
-  hostPath:
-    path: /data/php-app
-    type: DirectoryOrCreate
-
