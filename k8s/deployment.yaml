@@ -24,8 +24,8 @@ spec:
           - |
             mkdir -p /data/test
             echo "Initializing data volume...";
-            if [ ! -f /var/www/html/source/data/test.txt ]; then
-              cp /var/www/html/source/data/test.txt /data/test/test.txt;
+            if [ ! -f /var/www/html/source/test.txt ]; then
+              cp /var/www/html/source/test.txt /data/test/test.txt;
               chmod 666 /data/test/test.txt;
               echo "Initialization complete!";
             else
