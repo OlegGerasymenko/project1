@@ -9,6 +9,7 @@ spec:
     storage: 100Mi
   accessModes:
     - ReadWriteMany
+  volumeMode: Filesystem
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
   hostPath:

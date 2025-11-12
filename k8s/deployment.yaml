@@ -43,7 +43,7 @@ spec:
           name: http
         volumeMounts:
         - name: data-volume
-          mountPath: /data/test.txt
+          mountPath: /var/www/htm/data/test.txt
           subPath: data/test/test.txt
         resources:
           requests:

@@ -8,6 +8,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteMany
+  volumeMode: Filesystem
   storageClassName: standard
   resources:
     requests:
