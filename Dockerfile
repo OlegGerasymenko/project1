@@ -5,7 +5,7 @@ RUN a2enmod rewrite
 
 # Copy the PHP application
 COPY index.php /var/www/html/
-COPY source/* /var/www/html/source
+COPY source/* /var/www/html/source/
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html \
