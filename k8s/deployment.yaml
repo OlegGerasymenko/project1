@@ -25,8 +25,7 @@ spec:
             mkdir -p /data/test
             echo "Initializing data volume...";
             if [ ! -f /var/www/html/source/data/test.txt ]; then
-              echo "Copying test.txt to persistent volume...";
-              cp /app/source/test.txt /data/test/test.txt;
+              cp /var/www/html/source/data/test.txt /data/test/test.txt;
               chmod 666 /data/test/test.txt;
               echo "Initialization complete!";
             else
