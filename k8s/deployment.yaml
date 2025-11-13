@@ -16,57 +16,54 @@ spec:
         app: php-app
     spec:
       initContainers:
-      - name: init-data
-        image: php-app:latest
-        imagePullPolicy: Never
-        command: ['sh', '-c']
-        args:
-          - |
-            mkdir -p /data/test
-            echo "Initializing data volume...";
-            if [ ! -f /var/www/html/source/test.txt ]; then
-              cp /var/www/html/source/test.txt data/test/test.txt;
-              chmod 666 data/test/test.txt;
-              echo "Initialization complete!";
-            else
-              echo "test.txt already exists, skipping initialization.";
-            fi
-        volumeMounts:
-        - name: data-volume
-          mountPath: /data
+        - name: init-data
+          image: php-app:latest
+          imagePullPolicy: Never
+          command: ['sh', '-c']
+          args:
+            - |
+              echo "Initializing data volume...";
+              mkdir -p /data/test;
+              if [ ! -f /data/test/test.txt ]; then
+                cp /var/www/html/source/test.txt /data/test/test.txt;
+                chmod 666 /data/test/test.txt;
+                echo "Initialization complete!";
+              else
+                echo "test.txt already exists, skipping initialization.";
+              fi
+          volumeMounts:
+            - name: data-volume
+              mountPath: /data
       containers:
-      - name: php-app
-        image: php-app:latest
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 80
-          name: http
-        volumeMounts:
-        - name: data-volume
-          mountPath: /var/www/html/data/test.txt
-          subPath: data/test/test.txt
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "100m"
-          limits:
-            memory: "128Mi"
-            cpu: "200m"
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 10
-          periodSeconds: 10
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          initialDelaySeconds: 5
-          periodSeconds: 5
+        - name: php-app
+          image: php-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+              name: http
+          volumeMounts:
+            - name: data-volume
+              mountPath: /var/www/html/data
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 5
       volumes:
-      - name: data-volume
-        persistentVolumeClaim:
-          claimName: php-app-pvc
-
-
+        - name: data-volume
+          persistentVolumeClaim:
+            claimName: php-app-pvc
