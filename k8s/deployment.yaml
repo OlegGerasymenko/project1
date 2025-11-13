@@ -23,7 +23,8 @@ spec:
           args:
             - |
               echo "Initializing data volume...";
-               mkdir -p /mnt/shared/config
+              if [ ! -f /mnt/shared/config/test.txt ]; then
+                mkdir -p /mnt/shared/config;
                 cp /var/www/html/source/test.txt /mnt/shared/config/test.txt;
                 chmod 666 /mnt/shared/config/test.txt;
                 echo "Initialization complete!";
@@ -43,7 +44,7 @@ spec:
               name: http
           volumeMounts:
             - name: data-volume
-              mountPath: /var/www/html/config.php
+              mountPath: /var/www/html/config/test.txt
               subPath: p2p6/config/test.txt
           resources:
             requests:
