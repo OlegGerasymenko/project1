@@ -1,5 +1,12 @@
 FROM php:8.2-apache
 
+# Install additional packages
+RUN apt-get update && apt-get install -y \
+    nano \
+    sudo \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 # Enable Apache modules
 RUN a2enmod rewrite
 
