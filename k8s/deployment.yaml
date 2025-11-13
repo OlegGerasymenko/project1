@@ -23,17 +23,17 @@ spec:
           args:
             - |
               echo "Initializing data volume...";
-              mkdir -p /data/test;
-              if [ ! -f /data/test/test.txt ]; then
-                cp /var/www/html/source/test.txt /data/test/test.txt;
-                chmod 666 /data/test/test.txt;
+               mkdir -p /mnt/shared/config
+                cp /var/www/html/source/test.txt /mnt/shared/config/test.txt;
+                chmod 666 /mnt/shared/config/test.txt;
                 echo "Initialization complete!";
               else
                 echo "test.txt already exists, skipping initialization.";
               fi
           volumeMounts:
             - name: data-volume
-              mountPath: /data
+              mountPath: /mnt/shared
+              subPath: p2p6
       containers:
         - name: php-app
           image: php-app:latest
@@ -43,7 +43,8 @@ spec:
               name: http
           volumeMounts:
             - name: data-volume
-              mountPath: /var/www/html/data
+              mountPath: /var/www/html/config.php
+              subPath: p2p6/config/test.txt
           resources:
             requests:
               memory: "64Mi"
